@@ -293,7 +293,8 @@ export async function getJobObject(octokit: InstanceType<typeof GitHub>): Promis
   const currentJobs = workflowRunJobs
       .filter((job) => job.name === absoluteJobName && job.status === "in_progress" && job.runner_name === runnerName)
   if (currentJobs.length === 0) {
-    console.warn(currentJobs)
+    core.setOutput("all_jobs", JSON.stringify(currentJobs))
+    core.setOutput("jobname_in_inputs", runnerName)
     console.warn("Runnername in inputs: ", runnerName)
     throw new Error(`Current job '${absoluteJobName}' could not be found in workflow run.\n` +
         'If this action is used within a reusable workflow, ensure that ' +
